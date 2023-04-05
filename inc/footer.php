@@ -6,9 +6,22 @@
             <div class="col-lg-4 mb-5 mb-lg-0">
                 <h4 class="text-uppercase mb-4">Location</h4>
                 <p class="lead mb-0">
-                    2215 John Daniel Drive
-                    <br />
-                    Clark, MO 65243
+                    <?php
+                    $sql = "SELECT * FROM site_settings WHERE setting_key = 'business_address'";
+                    $result = $conn->query($sql);
+                    $business_address = 'Zahir Pir, Sadat Colony.';
+
+                    if ($result->num_rows > 0) {
+                    // output data of each row
+                    while($row = $result->fetch_assoc()) {
+                    //        echo "id: " . $row["id"]. " - Name: " . $row["setting_key"]. " " . $row["setting_value"]. "<br>";
+                        $business_address = $row["setting_value"];
+                    }
+                    }
+                    $conn->close();
+
+                    echo $business_address;
+                    ?>
                 </p>
             </div>
             <!-- Footer Social Icons-->

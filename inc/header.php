@@ -1,3 +1,17 @@
+<?php include ('config/config.php');
+
+$sql = "SELECT * FROM site_settings WHERE setting_key = 'site-title'";
+$result = $conn->query($sql);
+$site_title = 'PHP CRUD Project';
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+//        echo "id: " . $row["id"]. " - Name: " . $row["setting_key"]. " " . $row["setting_value"]. "<br>";
+        $site_title = $row["setting_value"];
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +20,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Freelancer - Start Bootstrap Theme</title>
+    <title><?php echo $site_title; ?></title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
