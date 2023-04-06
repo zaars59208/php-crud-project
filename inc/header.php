@@ -1,16 +1,6 @@
-<?php include ('config/config.php');
-
-$sql = "SELECT * FROM site_settings WHERE setting_key = 'site-title'";
-$result = $conn->query($sql);
-$site_title = 'PHP CRUD Project';
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-//        echo "id: " . $row["id"]. " - Name: " . $row["setting_key"]. " " . $row["setting_value"]. "<br>";
-        $site_title = $row["setting_value"];
-    }
-}
+<?php
+include ('config/config.php');
+include ('inc/functions.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,9 +10,9 @@ if ($result->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title><?php echo $site_title; ?></title>
+    <title><?php echo get_site_setting($conn,'site-title'); ?></title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="<?php echo get_site_setting($conn,'site_favicon');; ?>" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -35,7 +25,18 @@ if ($result->num_rows > 0) {
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand" href="#page-top">Start Bootstrap</a>
+        <?php
+        $sql = "SELECT * FROM site_settings WHERE setting_key = 'site_logo'";
+        $result = $conn->query($sql);
+        $site_logo = 'Start Bootstrap';
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $site_logo = '<img src="'.$row["setting_value"].'" alt="logo" />';
+            }
+        }
+        ?>
+        <a class="navbar-brand" href="#page-top"><?php echo $site_logo; ?></a>
         <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
@@ -52,6 +53,7 @@ if ($result->num_rows > 0) {
 <!-- Masthead-->
 <header class="masthead bg-primary text-white text-center">
     <div class="container d-flex align-items-center flex-column">
+
         <!-- Masthead Avatar Image-->
         <img class="masthead-avatar mb-5" src="assets/img/avataaars.svg" alt="..." />
         <!-- Masthead Heading-->
